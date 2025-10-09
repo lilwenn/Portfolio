@@ -1,252 +1,478 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Atelier & Potager — Lilwenn</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'atelier de Lilwenn</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 100%);
+        }
+
+        /* Menu */
+        .menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .menu h1 {
+            font-size: 1.5rem;
+            color: #6b5344;
+        }
+
+        .menu-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .menu-links a {
+            color: #6b5344;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .menu-links a:hover {
+            color: #8b6f47;
+        }
+
+        /* Conteneur principal */
+        .container {
+            min-height: 100vh;
+            padding-top: 80px;
+            position: relative;
+        }
+
+        /* Atelier */
+        .atelier {
+            display: block;
+            min-height: calc(100vh - 80px);
+            position: relative;
+            padding: 2rem;
+            background: linear-gradient(to bottom, #f5e6d3 0%, #e8d4b8 50%, #d4c4a8 100%);
+        }
+
+        .atelier-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            height: 600px;
+        }
+
+        /* Fenêtre vers le potager */
+        .window {
+            position: absolute;
+            top: 20px;
+            right: 100px;
+            width: 200px;
+            height: 250px;
+            background: linear-gradient(135deg, #a8d5ba 0%, #7cb89d 100%);
+            border: 8px solid #6b5344;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .window:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Objets interactifs */
+        .object {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-align: center;
+        }
+
+        .object:hover {
+            transform: translateY(-10px);
+        }
+
+        .object-icon {
+            font-size: 4rem;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+        }
+
+        .object-label {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #6b5344;
+            font-weight: bold;
+        }
+
+        .computer { top: 250px; left: 150px; }
+        .notebook { top: 350px; left: 400px; }
+        .headphones { top: 200px; right: 350px; }
+        .aquarium { bottom: 100px; right: 200px; }
+        .bottle { top: 400px; left: 700px; }
+        .robot { bottom: 150px; left: 300px; }
+        .plant { bottom: 200px; right: 450px; }
+        .usb { top: 300px; left: 550px; }
+
+        /* Potager */
+        .potager {
+            display: none;
+            min-height: calc(100vh - 80px);
+            position: relative;
+            padding: 2rem;
+            background: linear-gradient(to bottom, #a8d5ba 0%, #7cb89d 50%, #5a9d7a 100%);
+        }
+
+        .potager-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            height: 600px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #6b5344;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #6b5344;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            background: #6b5344;
+            color: white;
+        }
+
+        .garden-item {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-align: center;
+            animation: grow 2s ease-in-out infinite alternate;
+        }
+
+        .garden-item:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes grow {
+            from { transform: translateY(0); }
+            to { transform: translateY(-5px); }
+        }
+
+        .garden-icon {
+            font-size: 3rem;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+        }
+
+        .garden-label {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #2d5a3d;
+            font-weight: bold;
+        }
+
+        .seedling1 { top: 200px; left: 200px; }
+        .seedling2 { top: 300px; left: 400px; }
+        .tomato { top: 250px; right: 300px; }
+        .flower { bottom: 200px; left: 500px; }
+        .bee { top: 150px; right: 200px; animation: fly 4s ease-in-out infinite; }
+
+        @keyframes fly {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -20px); }
+        }
+
+        /* Modale */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #6b5344;
+            background: none;
+            border: none;
+            line-height: 1;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: #6b5344;
+            margin-bottom: 1rem;
+        }
+
+        .modal-text {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .atelier-content, .potager-content {
+                height: auto;
+                min-height: 500px;
+            }
+
+            .object, .garden-item {
+                position: relative;
+                display: inline-block;
+                margin: 1rem;
+            }
+
+            .window {
+                position: relative;
+                margin: 2rem auto;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div id="app">
-    <!-- Top bar -->
-    <header>
-      <h1>L'atelier de Lilwenn</h1>
-      <nav>
-        <button id="btn-atelier" class="nav-btn active">Atelier</button>
-        <button id="btn-potager" class="nav-btn">Potager</button>
-        <a id="download-cv" class="nav-btn" role="button">Télécharger CV</a>
-      </nav>
-    </header>
-
-    <!-- Scene container (perspective for 3D feel) -->
-    <main id="scene">
-      <!-- Atelier scene -->
-      <section id="atelier" class="scene active" aria-hidden="false">
-        <div class="room">
-          <div class="desk">
-            <!-- Ordi -->
-            <div class="object ordi" data-target="modal-ordi" tabindex="0" title="Mes projets (ordinateur)">
-              <!-- simple stylized laptop -->
-              <svg viewBox="0 0 120 80" class="svg-object">
-                <rect x="6" y="10" rx="4" ry="4" width="108" height="56" fill="#fff7f0" stroke="#a66" />
-                <rect x="12" y="16" width="96" height="40" fill="#1b2b3a"/>
-                <rect x="30" y="24" width="60" height="20" fill="#dfe8f2" opacity="0.07"/>
-                <rect x="24" y="62" width="72" height="6" fill="#888" rx="2"/>
-              </svg>
-              <div class="label">ordinateur</div>
-            </div>
-
-            <!-- Carnet -->
-            <div class="object carnet" data-target="modal-carnet" tabindex="0" title="Mon parcours (carnet)">
-              <svg viewBox="0 0 60 60" class="svg-object">
-                <rect x="2" y="4" rx="6" ry="6" width="44" height="52" fill="#fff6e6" stroke="#e09" />
-                <line x1="10" y1="12" x2="38" y2="12" stroke="#d5b" stroke-width="1.4" />
-                <line x1="10" y1="20" x2="38" y2="20" stroke="#d5b" stroke-width="1.2" />
-              </svg>
-              <div class="label">carnet</div>
-            </div>
-
-            <!-- Casque -->
-            <div class="object casque" data-target="modal-casque" tabindex="0" title="Inspiration musicale">
-              <svg viewBox="0 0 60 60" class="svg-object">
-                <path d="M10 30 a12 12 0 0 1 40 0" fill="none" stroke="#6b3" stroke-width="4" />
-                <rect x="6" y="34" width="12" height="16" rx="3" fill="#fff2dd" stroke="#6b3"/>
-                <rect x="42" y="34" width="12" height="16" rx="3" fill="#fff2dd" stroke="#6b3"/>
-              </svg>
-              <div class="label">casque</div>
-            </div>
-
-            <!-- Aquarium -->
-            <div class="object aquarium" data-target="modal-aquarium" tabindex="0" title="Aquarium (détente)">
-              <svg viewBox="0 0 80 60" class="svg-object">
-                <rect x="4" y="6" width="72" height="44" rx="6" fill="#e6f7ff" stroke="#6aa" />
-                <!-- poisson -->
-                <g class="fish" transform="translate(10,28)">
-                  <ellipse rx="7" ry="4" fill="#ffb3b3"/>
-                  <polygon points="-7,0 -12,-4 -12,4" fill="#ff8f8f"/>
-                  <circle cx="3" cy="-1" r="1.2" fill="#222"/>
-                </g>
-              </svg>
-              <div class="label">aquarium</div>
-            </div>
-
-            <!-- Bouteille -->
-            <div class="object bouteille" data-target="modal-bouteille" tabindex="0" title="Bouteille de lait (souvenirs)">
-              <svg viewBox="0 0 40 80" class="svg-object">
-                <rect x="12" y="20" width="16" height="42" rx="6" fill="#fff" stroke="#cfc"/>
-                <rect x="14" y="10" width="12" height="12" rx="3" fill="#fff7f2" stroke="#cfc"/>
-              </svg>
-              <div class="label">bouteille</div>
-            </div>
-
-            <!-- Robot -->
-            <div class="object robot" data-target="modal-robot" tabindex="0" title="Petit robot (tech)">
-              <svg viewBox="0 0 60 60" class="svg-object">
-                <rect x="8" y="18" width="44" height="30" rx="6" fill="#eef8ff" stroke="#88b"/>
-                <rect x="20" y="6" width="20" height="14" rx="4" fill="#dff"/>
-                <circle cx="28" cy="30" r="4" fill="#88b"/>
-                <rect x="12" y="34" width="36" height="4" rx="2" fill="#c7e"/>
-              </svg>
-              <div class="label">robot</div>
-            </div>
-
-            <!-- Plantes -->
-            <div class="object plante" data-target="modal-plante" tabindex="0" title="Plantes (inspirations)">
-              <svg viewBox="0 0 60 80" class="svg-object">
-                <rect x="18" y="48" width="24" height="12" rx="6" fill="#fff2dd" stroke="#b66"/>
-                <path d="M30 48 C28 38, 24 34, 30 28 C36 34, 32 38, 30 48" fill="#cfe" stroke="#4a7"/>
-                <path d="M30 40 C38 30, 42 30, 40 22" fill="#9f8" stroke="#4a7"/>
-              </svg>
-              <div class="label">plantes</div>
-            </div>
-
-            <!-- Clé USB / Disque -->
-            <div class="object cle" data-target="modal-cv" tabindex="0" title="CV (télécharger)">
-              <svg viewBox="0 0 60 60" class="svg-object">
-                <rect x="18" y="12" width="24" height="36" rx="4" fill="#fff9e6" stroke="#c96" />
-                <rect x="26" y="4" width="8" height="10" rx="2" fill="#ffd"/>
-              </svg>
-              <div class="label">CV</div>
-            </div>
-
-          </div> <!-- /desk -->
-          <!-- Decorative shelves & background drawing feel -->
-          <div class="shelf left">
-            <div class="book">projets</div>
-            <div class="frame">affiche</div>
-          </div>
-          <div class="shelf right">
-            <div class="plant-mini"></div>
-            <div class="lamp"></div>
-          </div>
+    <!-- Menu -->
+    <nav class="menu">
+        <h1>🧰 L'atelier de Lilwenn</h1>
+        <div class="menu-links">
+            <a href="#" onclick="showAtelier()">Atelier</a>
+            <a href="#" onclick="downloadCV()">Télécharger CV</a>
         </div>
-      </section>
+    </nav>
 
-      <!-- Potager scene -->
-      <section id="potager" class="scene" aria-hidden="true">
-        <div class="garden">
-          <div class="garden-bed">
-            <!-- plants that represent soft skills / passions -->
-            <div class="plant-plot" data-skill="curiosité" tabindex="0">
-              <div class="seedling">🌱</div>
-              <div class="tag">Curiosité</div>
+    <div class="container">
+        <!-- Atelier -->
+        <section class="atelier" id="atelier">
+            <div class="atelier-content">
+                <!-- Fenêtre vers le potager -->
+                <div class="window" onclick="showPotager()">
+                    🌿
+                </div>
+
+                <!-- Objets interactifs -->
+                <div class="object computer" onclick="openModal('computer')">
+                    <div class="object-icon">💻</div>
+                    <div class="object-label">Projets</div>
+                </div>
+
+                <div class="object notebook" onclick="openModal('notebook')">
+                    <div class="object-icon">📔</div>
+                    <div class="object-label">Parcours</div>
+                </div>
+
+                <div class="object headphones" onclick="openModal('headphones')">
+                    <div class="object-icon">🎧</div>
+                    <div class="object-label">Inspirations</div>
+                </div>
+
+                <div class="object aquarium" onclick="openModal('aquarium')">
+                    <div class="object-icon">🐠</div>
+                    <div class="object-label">Aquarium</div>
+                </div>
+
+                <div class="object bottle" onclick="openModal('bottle')">
+                    <div class="object-icon">🍼</div>
+                    <div class="object-label">Message</div>
+                </div>
+
+                <div class="object robot" onclick="openModal('robot')">
+                    <div class="object-icon">🤖</div>
+                    <div class="object-label">Tech</div>
+                </div>
+
+                <div class="object plant" onclick="openModal('plant')">
+                    <div class="object-icon">🌿</div>
+                    <div class="object-label">Nature</div>
+                </div>
+
+                <div class="object usb" onclick="downloadCV()">
+                    <div class="object-icon">💾</div>
+                    <div class="object-label">CV</div>
+                </div>
             </div>
-            <div class="plant-plot" data-skill="patience" tabindex="0">
-              <div class="seedling">🌿</div>
-              <div class="tag">Patience</div>
+        </section>
+
+        <!-- Potager -->
+        <section class="potager" id="potager">
+            <button class="back-button" onclick="showAtelier()">← Retour à l'atelier</button>
+            <div class="potager-content">
+                <div class="garden-item seedling1" onclick="openModal('seedling1')">
+                    <div class="garden-icon">🌱</div>
+                    <div class="garden-label">Créativité</div>
+                </div>
+
+                <div class="garden-item seedling2" onclick="openModal('seedling2')">
+                    <div class="garden-icon">🌱</div>
+                    <div class="garden-label">Curiosité</div>
+                </div>
+
+                <div class="garden-item tomato" onclick="openModal('tomato')">
+                    <div class="garden-icon">🍅</div>
+                    <div class="garden-label">Passion</div>
+                </div>
+
+                <div class="garden-item flower" onclick="openModal('flower')">
+                    <div class="garden-icon">🌻</div>
+                    <div class="garden-label">Bienvenue</div>
+                </div>
+
+                <div class="garden-item bee">
+                    <div class="garden-icon">🐝</div>
+                </div>
             </div>
-            <div class="plant-plot" data-skill="créativité" tabindex="0">
-              <div class="seedling">🌸</div>
-              <div class="tag">Créativité</div>
-            </div>
-            <div class="plant-plot" data-skill="écoute" tabindex="0">
-              <div class="seedling">🍃</div>
-              <div class="tag">Écoute</div>
-            </div>
-            <div class="plant-plot" data-skill="photographie" tabindex="0">
-              <div class="seedling">📷</div>
-              <div class="tag">Photo</div>
-            </div>
-            <div class="plant-plot" data-skill="musique" tabindex="0">
-              <div class="seedling">🎧</div>
-              <div class="tag">Musique</div>
-            </div>
-          </div>
-
-          <div class="garden-note">
-            <p>Dans mon potager poussent mes qualités et passions : clique pour en savoir plus.</p>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <!-- Modal templates -->
-    <div id="modals-container" aria-hidden="true">
-      <!-- Atelier modals -->
-      <div class="modal" id="modal-ordi" role="dialog" aria-modal="true" aria-hidden="true">
-        <div class="modal-content">
-          <button class="close" aria-label="fermer">&times;</button>
-          <h2>Projets web</h2>
-          <p>Ici tu peux présenter : projet 1 (link), projet 2 (link), stack technique, screenshots.</p>
-          <ul>
-            <li><a href="#" target="_blank">Exemple : Portfolio (HTML/CSS/JS)</a></li>
-            <li><a href="#" target="_blank">Application JavaScript</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="modal" id="modal-carnet" role="dialog" aria-modal="true" aria-hidden="true">
-        <div class="modal-content">
-          <button class="close" aria-label="fermer">&times;</button>
-          <h2>Mon parcours</h2>
-          <p>Résumé de ton parcours, études, expériences, liens vers LinkedIn / CV.</p>
-        </div>
-      </div>
-
-      <div class="modal" id="modal-casque" role="dialog" aria-modal="true" aria-hidden="true">
-        <div class="modal-content">
-          <button class="close" aria-label="fermer">&times;</button>
-          <h2>Inspiration musicale</h2>
-          <p>Quelques morceaux, genres ou playlist qui t'accompagnent quand tu codes.</p>
-        </div>
-      </div>
-
-      <div class="modal" id="modal-aquarium" role="dialog" aria-modal="true" aria-hidden="true">
-        <div class="modal-content">
-          <button class="close" aria-label="fermer">&times;</button>
-          <h2>Aquarium</h2>
-          <p>Un petit moment de détente — ici tu peux lier à un micro-projet relax (canvas, animation).</p>
-        </div>
-      </div>
-
-      <div class="modal" id="modal-bouteille" role="dialog" aria-modal="true" aria-hidden="true">
-        <div class="modal-content">
-          <button class="close" aria-label="fermer">&times;</button>
-          <h2>Bouteille</h2>
-          <p>Souvenirs, petites histoires ou projets personnels.</p>
-        </div>
-      </div>
-
-      <div class="modal" id="modal-robot" role="dialog" aria-modal="true" aria-hidden="true">
-        <div class="modal-content">
-          <button class="close" aria-label="fermer">&times;</button>
-          <h2>Robot — tech</h2>
-          <p>Présentation des projets qui montrent ta maîtrise des concepts techniques.</p>
-        </div>
-      </div>
-
-      <div class="modal" id="modal-plante" role="dialog" aria-modal="true" aria-hidden="true">
-        <div class="modal-content">
-          <button class="close" aria-label="fermer">&times;</button>
-          <h2>Plantes</h2>
-          <p>Sources d'inspiration, livres, références.</p>
-        </div>
-      </div>
-
-      <div class="modal" id="modal-cv" role="dialog" aria-modal="true" aria-hidden="true">
-        <div class="modal-content">
-          <button class="close" aria-label="fermer">&times;</button>
-          <h2>Télécharger mon CV</h2>
-          <p>Le bouton ci-dessous génère et télécharge un fichier CV (exemple). Remplace par ton PDF réel plus tard.</p>
-          <button id="gen-download">Générer & télécharger le CV (exemple)</button>
-        </div>
-      </div>
-
-      <!-- Potager detail modal (reused) -->
-      <div class="modal" id="modal-skill" role="dialog" aria-modal="true" aria-hidden="true">
-        <div class="modal-content">
-          <button class="close" aria-label="fermer">&times;</button>
-          <h2 id="skill-title">Qualité</h2>
-          <p id="skill-desc">Description de la qualité / passion.</p>
-        </div>
-      </div>
+        </section>
     </div>
 
-    <footer>
-      <p>© 2025 Lilwenn • Atelier & Potager — site statique</p>
-    </footer>
-  </div>
+    <!-- Modale -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <h2 class="modal-title" id="modal-title"></h2>
+            <p class="modal-text" id="modal-text"></p>
+        </div>
+    </div>
 
-  <script src="script.js"></script>
+    <script>
+        const content = {
+            computer: {
+                title: "💻 Mes Projets Techniques",
+                text: "Découvrez l'ensemble de mes réalisations techniques : applications web, développements logiciels, et projets innovants réalisés tout au long de ma scolarité. Chaque projet reflète mon engagement et ma passion pour la technologie."
+            },
+            notebook: {
+                title: "📔 Mon Parcours",
+                text: "Mon cheminement académique et professionnel, mes formations, mes expériences et les compétences que j'ai développées au fil du temps. Un parcours guidé par la curiosité et l'envie d'apprendre."
+            },
+            headphones: {
+                title: "🎧 Mes Inspirations",
+                text: "La musique et les sons qui m'inspirent au quotidien. Découvrez les artistes et les ambiances qui nourrissent ma créativité et accompagnent mes projets."
+            },
+            aquarium: {
+                title: "🐠 Aquarium Zen",
+                text: "Un espace de détente et de contemplation. Comme ces poissons qui évoluent paisiblement, je cultive la sérénité et la concentration dans mon travail."
+            },
+            bottle: {
+                title: "🍼 Message Personnel",
+                text: "Chaque projet commence par une idée, comme une graine qu'on plante. Cette bouteille symbolise l'importance de nourrir ses ambitions avec patience et détermination."
+            },
+            robot: {
+                title: "🤖 Univers Tech",
+                text: "Ma passion pour la robotique et l'intelligence artificielle. J'aime explorer les nouvelles technologies et imaginer les solutions de demain."
+            },
+            plant: {
+                title: "🌿 Connexion Nature",
+                text: "Les plantes m'accompagnent dans mon espace de travail et m'inspirent. Elles me rappellent l'importance de la croissance progressive et de l'attention aux détails."
+            },
+            seedling1: {
+                title: "🌱 Créativité",
+                text: "La créativité est au cœur de ma démarche. Elle me permet d'aborder chaque problème avec un regard neuf et de trouver des solutions innovantes."
+            },
+            seedling2: {
+                title: "🌱 Curiosité",
+                text: "Une curiosité insatiable qui me pousse à explorer, apprendre et me remettre en question constamment. C'est le moteur de mon évolution."
+            },
+            tomato: {
+                title: "🍅 Passion",
+                text: "Ma passion pour la technologie et le développement est le fruit d'années de pratique et d'expérimentation. Elle grandit et mûrit chaque jour."
+            },
+            flower: {
+                title: "🌻 Bienvenue dans mon jardin",
+                text: "Cet espace représente mes qualités humaines et mes soft skills. Comme un jardin, elles nécessitent de l'attention et du soin pour s'épanouir pleinement."
+            }
+        };
+
+        function showAtelier() {
+            document.getElementById('atelier').style.display = 'block';
+            document.getElementById('potager').style.display = 'none';
+        }
+
+        function showPotager() {
+            document.getElementById('atelier').style.display = 'none';
+            document.getElementById('potager').style.display = 'block';
+        }
+
+        function openModal(item) {
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modal-title');
+            const text = document.getElementById('modal-text');
+            
+            title.textContent = content[item].title;
+            text.textContent = content[item].text;
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function downloadCV() {
+            alert('Téléchargement du CV (fonctionnalité à implémenter avec votre fichier PDF)');
+        }
+
+        // Fermer la modale en cliquant en dehors
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
 </body>
 </html>

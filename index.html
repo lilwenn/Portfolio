@@ -1,49 +1,250 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>L'Atelier de Lilwenn</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Atelier & Potager — Lilwenn</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="atelier">
-    <img src="images/bureau.jpeg" alt="Bureau" class="fond">
+  <div id="app">
+    <!-- Top bar -->
+    <header>
+      <h1>L'atelier de Lilwenn</h1>
+      <nav>
+        <button id="btn-atelier" class="nav-btn active">Atelier</button>
+        <button id="btn-potager" class="nav-btn">Potager</button>
+        <a id="download-cv" class="nav-btn" role="button">Télécharger CV</a>
+      </nav>
+    </header>
 
-    <!-- Objets interactifs -->
-    <img src="images/ordi.jpeg" alt="Ordinateur" class="objet" id="ordi" title="Mes projets web">
-    <img src="images/carnet.jpeg" alt="Carnet" class="objet" id="carnet" title="Mon parcours">
-    <img src="images/tasse.jpeg" alt="Tasse" class="objet" id="tasse" title="Pause café">
+    <!-- Scene container (perspective for 3D feel) -->
+    <main id="scene">
+      <!-- Atelier scene -->
+      <section id="atelier" class="scene active" aria-hidden="false">
+        <div class="room">
+          <div class="desk">
+            <!-- Ordi -->
+            <div class="object ordi" data-target="modal-ordi" tabindex="0" title="Mes projets (ordinateur)">
+              <!-- simple stylized laptop -->
+              <svg viewBox="0 0 120 80" class="svg-object">
+                <rect x="6" y="10" rx="4" ry="4" width="108" height="56" fill="#fff7f0" stroke="#a66" />
+                <rect x="12" y="16" width="96" height="40" fill="#1b2b3a"/>
+                <rect x="30" y="24" width="60" height="20" fill="#dfe8f2" opacity="0.07"/>
+                <rect x="24" y="62" width="72" height="6" fill="#888" rx="2"/>
+              </svg>
+              <div class="label">ordinateur</div>
+            </div>
 
-    <!-- Fenêtres modales -->
-    <div class="modal" id="modal-ordi">
-      <div class="contenu">
-        <span class="fermer">&times;</span>
-        <h2>💻 Mes projets</h2>
-        <p>Voici quelques-uns de mes projets web réalisés avec HTML, CSS et JavaScript.</p>
-        <ul>
-          <li><a href="#">Portfolio</a></li>
-          <li><a href="#">Application JS</a></li>
-          <li><a href="#">Site artistique</a></li>
-        </ul>
+            <!-- Carnet -->
+            <div class="object carnet" data-target="modal-carnet" tabindex="0" title="Mon parcours (carnet)">
+              <svg viewBox="0 0 60 60" class="svg-object">
+                <rect x="2" y="4" rx="6" ry="6" width="44" height="52" fill="#fff6e6" stroke="#e09" />
+                <line x1="10" y1="12" x2="38" y2="12" stroke="#d5b" stroke-width="1.4" />
+                <line x1="10" y1="20" x2="38" y2="20" stroke="#d5b" stroke-width="1.2" />
+              </svg>
+              <div class="label">carnet</div>
+            </div>
+
+            <!-- Casque -->
+            <div class="object casque" data-target="modal-casque" tabindex="0" title="Inspiration musicale">
+              <svg viewBox="0 0 60 60" class="svg-object">
+                <path d="M10 30 a12 12 0 0 1 40 0" fill="none" stroke="#6b3" stroke-width="4" />
+                <rect x="6" y="34" width="12" height="16" rx="3" fill="#fff2dd" stroke="#6b3"/>
+                <rect x="42" y="34" width="12" height="16" rx="3" fill="#fff2dd" stroke="#6b3"/>
+              </svg>
+              <div class="label">casque</div>
+            </div>
+
+            <!-- Aquarium -->
+            <div class="object aquarium" data-target="modal-aquarium" tabindex="0" title="Aquarium (détente)">
+              <svg viewBox="0 0 80 60" class="svg-object">
+                <rect x="4" y="6" width="72" height="44" rx="6" fill="#e6f7ff" stroke="#6aa" />
+                <!-- poisson -->
+                <g class="fish" transform="translate(10,28)">
+                  <ellipse rx="7" ry="4" fill="#ffb3b3"/>
+                  <polygon points="-7,0 -12,-4 -12,4" fill="#ff8f8f"/>
+                  <circle cx="3" cy="-1" r="1.2" fill="#222"/>
+                </g>
+              </svg>
+              <div class="label">aquarium</div>
+            </div>
+
+            <!-- Bouteille -->
+            <div class="object bouteille" data-target="modal-bouteille" tabindex="0" title="Bouteille de lait (souvenirs)">
+              <svg viewBox="0 0 40 80" class="svg-object">
+                <rect x="12" y="20" width="16" height="42" rx="6" fill="#fff" stroke="#cfc"/>
+                <rect x="14" y="10" width="12" height="12" rx="3" fill="#fff7f2" stroke="#cfc"/>
+              </svg>
+              <div class="label">bouteille</div>
+            </div>
+
+            <!-- Robot -->
+            <div class="object robot" data-target="modal-robot" tabindex="0" title="Petit robot (tech)">
+              <svg viewBox="0 0 60 60" class="svg-object">
+                <rect x="8" y="18" width="44" height="30" rx="6" fill="#eef8ff" stroke="#88b"/>
+                <rect x="20" y="6" width="20" height="14" rx="4" fill="#dff"/>
+                <circle cx="28" cy="30" r="4" fill="#88b"/>
+                <rect x="12" y="34" width="36" height="4" rx="2" fill="#c7e"/>
+              </svg>
+              <div class="label">robot</div>
+            </div>
+
+            <!-- Plantes -->
+            <div class="object plante" data-target="modal-plante" tabindex="0" title="Plantes (inspirations)">
+              <svg viewBox="0 0 60 80" class="svg-object">
+                <rect x="18" y="48" width="24" height="12" rx="6" fill="#fff2dd" stroke="#b66"/>
+                <path d="M30 48 C28 38, 24 34, 30 28 C36 34, 32 38, 30 48" fill="#cfe" stroke="#4a7"/>
+                <path d="M30 40 C38 30, 42 30, 40 22" fill="#9f8" stroke="#4a7"/>
+              </svg>
+              <div class="label">plantes</div>
+            </div>
+
+            <!-- Clé USB / Disque -->
+            <div class="object cle" data-target="modal-cv" tabindex="0" title="CV (télécharger)">
+              <svg viewBox="0 0 60 60" class="svg-object">
+                <rect x="18" y="12" width="24" height="36" rx="4" fill="#fff9e6" stroke="#c96" />
+                <rect x="26" y="4" width="8" height="10" rx="2" fill="#ffd"/>
+              </svg>
+              <div class="label">CV</div>
+            </div>
+
+          </div> <!-- /desk -->
+          <!-- Decorative shelves & background drawing feel -->
+          <div class="shelf left">
+            <div class="book">projets</div>
+            <div class="frame">affiche</div>
+          </div>
+          <div class="shelf right">
+            <div class="plant-mini"></div>
+            <div class="lamp"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Potager scene -->
+      <section id="potager" class="scene" aria-hidden="true">
+        <div class="garden">
+          <div class="garden-bed">
+            <!-- plants that represent soft skills / passions -->
+            <div class="plant-plot" data-skill="curiosité" tabindex="0">
+              <div class="seedling">🌱</div>
+              <div class="tag">Curiosité</div>
+            </div>
+            <div class="plant-plot" data-skill="patience" tabindex="0">
+              <div class="seedling">🌿</div>
+              <div class="tag">Patience</div>
+            </div>
+            <div class="plant-plot" data-skill="créativité" tabindex="0">
+              <div class="seedling">🌸</div>
+              <div class="tag">Créativité</div>
+            </div>
+            <div class="plant-plot" data-skill="écoute" tabindex="0">
+              <div class="seedling">🍃</div>
+              <div class="tag">Écoute</div>
+            </div>
+            <div class="plant-plot" data-skill="photographie" tabindex="0">
+              <div class="seedling">📷</div>
+              <div class="tag">Photo</div>
+            </div>
+            <div class="plant-plot" data-skill="musique" tabindex="0">
+              <div class="seedling">🎧</div>
+              <div class="tag">Musique</div>
+            </div>
+          </div>
+
+          <div class="garden-note">
+            <p>Dans mon potager poussent mes qualités et passions : clique pour en savoir plus.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal templates -->
+    <div id="modals-container" aria-hidden="true">
+      <!-- Atelier modals -->
+      <div class="modal" id="modal-ordi" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-content">
+          <button class="close" aria-label="fermer">&times;</button>
+          <h2>Projets web</h2>
+          <p>Ici tu peux présenter : projet 1 (link), projet 2 (link), stack technique, screenshots.</p>
+          <ul>
+            <li><a href="#" target="_blank">Exemple : Portfolio (HTML/CSS/JS)</a></li>
+            <li><a href="#" target="_blank">Application JavaScript</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal" id="modal-carnet" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-content">
+          <button class="close" aria-label="fermer">&times;</button>
+          <h2>Mon parcours</h2>
+          <p>Résumé de ton parcours, études, expériences, liens vers LinkedIn / CV.</p>
+        </div>
+      </div>
+
+      <div class="modal" id="modal-casque" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-content">
+          <button class="close" aria-label="fermer">&times;</button>
+          <h2>Inspiration musicale</h2>
+          <p>Quelques morceaux, genres ou playlist qui t'accompagnent quand tu codes.</p>
+        </div>
+      </div>
+
+      <div class="modal" id="modal-aquarium" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-content">
+          <button class="close" aria-label="fermer">&times;</button>
+          <h2>Aquarium</h2>
+          <p>Un petit moment de détente — ici tu peux lier à un micro-projet relax (canvas, animation).</p>
+        </div>
+      </div>
+
+      <div class="modal" id="modal-bouteille" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-content">
+          <button class="close" aria-label="fermer">&times;</button>
+          <h2>Bouteille</h2>
+          <p>Souvenirs, petites histoires ou projets personnels.</p>
+        </div>
+      </div>
+
+      <div class="modal" id="modal-robot" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-content">
+          <button class="close" aria-label="fermer">&times;</button>
+          <h2>Robot — tech</h2>
+          <p>Présentation des projets qui montrent ta maîtrise des concepts techniques.</p>
+        </div>
+      </div>
+
+      <div class="modal" id="modal-plante" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-content">
+          <button class="close" aria-label="fermer">&times;</button>
+          <h2>Plantes</h2>
+          <p>Sources d'inspiration, livres, références.</p>
+        </div>
+      </div>
+
+      <div class="modal" id="modal-cv" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-content">
+          <button class="close" aria-label="fermer">&times;</button>
+          <h2>Télécharger mon CV</h2>
+          <p>Le bouton ci-dessous génère et télécharge un fichier CV (exemple). Remplace par ton PDF réel plus tard.</p>
+          <button id="gen-download">Générer & télécharger le CV (exemple)</button>
+        </div>
+      </div>
+
+      <!-- Potager detail modal (reused) -->
+      <div class="modal" id="modal-skill" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-content">
+          <button class="close" aria-label="fermer">&times;</button>
+          <h2 id="skill-title">Qualité</h2>
+          <p id="skill-desc">Description de la qualité / passion.</p>
+        </div>
       </div>
     </div>
 
-    <div class="modal" id="modal-carnet">
-      <div class="contenu">
-        <span class="fermer">&times;</span>
-        <h2>📔 Mon parcours</h2>
-        <p>Je suis passionnée par la création numérique et le design web. Voici mon parcours...</p>
-      </div>
-    </div>
-
-    <div class="modal" id="modal-tasse">
-      <div class="contenu">
-        <span class="fermer">&times;</span>
-        <h2>☕ Petite pause ?</h2>
-        <p>Parfois, il faut savoir se détendre un peu avant de reprendre le code !</p>
-      </div>
-    </div>
+    <footer>
+      <p>© 2025 Lilwenn • Atelier & Potager — site statique</p>
+    </footer>
   </div>
 
   <script src="script.js"></script>

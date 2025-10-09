@@ -1,58 +1,120 @@
-body {
-  margin: 0;
-  overflow: hidden;
-  font-family: 'Poppins', sans-serif;
-  background: #f2eee9;
+/* style.css - atelier & potager (dessiné, chaud, moderne) */
+
+/* Reset minimal */
+* { box-sizing: border-box; }
+html,body { height:100%; margin:0; font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: linear-gradient(180deg,#fff9f2 0%, #f6f2ec 100%); color:#2e2e2e; }
+
+/* Top bar */
+header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 28px;
+  background: linear-gradient(90deg,#ffd6c9 0%, #fff7e6 100%);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+}
+header h1 { margin:0; font-size:18px; letter-spacing:0.6px; color:#5a2a2a; font-weight:600; }
+nav { display:flex; gap:10px; align-items:center; }
+.nav-btn {
+  background: rgba(255,255,255,0.9);
+  border:2px solid rgba(0,0,0,0.04);
+  padding:8px 12px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:600;
+  color:#5a2a2a;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.nav-btn:hover { transform: translateY(-3px); box-shadow:0 6px 18px rgba(0,0,0,0.08); }
+.nav-btn.active { background: linear-gradient(90deg,#fff 0%, #ffe9df 100%); box-shadow: 0 8px 24px rgba(170,80,60,0.08); }
+
+/* Scene perspective container for subtle 3D */
+#scene {
+  width:100%;
+  height:calc(100vh - 120px);
+  perspective: 1200px;
+  overflow:hidden;
 }
 
-#atelier {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  background: url('images/mur.png') center/cover no-repeat;
+/* Scenes */
+.scene { width:100%; height:100%; position:relative; transition: transform .9s cubic-bezier(.18,.9,.29,1), opacity .6s; }
+.scene:not(.active) { opacity:0; pointer-events:none; transform: translateZ(-80px) scale(.98) rotateX(6deg); }
+.scene.active { opacity:1; pointer-events:auto; transform: translateZ(0) scale(1) rotateX(0deg); }
+
+/* Atelier room style */
+.room { position:relative; width:100%; height:100%; background:
+  radial-gradient(800px 300px at 10% 15%, rgba(255,210,190,0.14), transparent 12%),
+  linear-gradient(180deg,#fff8f4 0%, #fff 50%, #f3efe9 100%);
+  overflow:hidden;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding-bottom:60px;
 }
 
-.objet {
-  position: absolute;
-  cursor: pointer;
-  transition: transform 0.2s ease;
+/* Desk */
+.desk { width:84%; max-width:1200px; height:58%; background: linear-gradient(180deg,#fff7f0 0%, #fff0e6 100%); border-radius:20px; box-shadow:0 12px 40px rgba(80,30,10,0.08); position:relative; padding:20px; display:flex; flex-wrap:wrap; align-content:flex-start; gap:18px; transform-style:preserve-3d; }
+
+/* Objects style: drawn, shadow, label */
+.object {
+  width:110px; height:110px; min-width:80px; min-height:70px;
+  display:flex; align-items:center; justify-content:center; flex-direction:column;
+  border-radius:14px; background: linear-gradient(180deg,#fff 0%, #fffaf7 100%);
+  padding:8px; position:relative; cursor:pointer;
+  transition: transform .22s cubic-bezier(.2,.8,.2,1), box-shadow .22s;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  transform-origin:center;
+  outline:none;
 }
+.object:focus { box-shadow: 0 12px 28px rgba(0,0,0,0.12); transform: translateY(-8px) rotateX(6deg); }
+.object:hover { transform: translateY(-6px) rotateX(4deg) scale(1.04); box-shadow: 0 18px 40px rgba(0,0,0,0.12); }
+.svg-object { width:70%; height:auto; display:block; }
+.object .label { font-size:12px; margin-top:8px; color:#7a4a3f; font-weight:600; letter-spacing:0.4px; text-transform:lowercase; }
 
-.objet:hover {
-  transform: scale(1.1);
-}
+/* Position some objects visually different sizes */
+.ordi { width:200px; height:140px; align-self:flex-start; margin-left:40px; }
+.carnet { width:90px; height:100px; }
+.casque { width:100px; height:100px; }
+.aquarium { width:120px; height:110px; }
+.bouteille { width:70px; height:120px; }
+.robot { width:100px; height:100px; }
+.plante { width:90px; height:120px; }
+.cle { width:70px; height:90px; }
 
-/* Exemples de positionnement */
-#ordi { top: 60%; left: 45%; width: 150px; }
-#carnet { top: 70%; left: 25%; width: 100px; }
-#tasse { top: 72%; left: 65%; width: 80px; }
+/* shelves */
+.shelf { position:absolute; top:12px; display:flex; gap:8px; align-items:center; }
+.shelf.left { left:28px; }
+.shelf.right { right:28px; }
 
-/* Fenêtres modales */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-}
+/* small decor */
+.book { width:72px; height:34px; background:#fff7e6; border-radius:8px; box-shadow:0 6px 14px rgba(0,0,0,0.06); padding:6px; font-size:12px; color:#855; }
+.frame { width:54px; height:34px; background:linear-gradient(180deg,#ffd 0%, #ffe 100%); border-radius:8px; box-shadow:inset 0 1px 0 rgba(255,255,255,0.4); }
 
-.contenu {
-  background: white;
-  margin: 10% auto;
-  padding: 20px;
-  width: 60%;
-  border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  animation: pop 0.3s ease;
-}
+/* Potager styles */
+.garden { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; background:linear-gradient(180deg,#eefbf3 0%, #fff 40%); padding:30px; }
+.garden-bed { width:86%; max-width:1000px; background: linear-gradient(180deg,#fbf6f0, #f3f1ea); border-radius:16px; padding:22px; display:flex; flex-wrap:wrap; gap:18px; justify-content:center; box-shadow:0 12px 30px rgba(0,0,0,0.06); }
+.plant-plot { width:150px; height:120px; border-radius:12px; background:linear-gradient(180deg,#fff 0%, #fffbf8 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; cursor:pointer; padding:8px; box-shadow:0 8px 20px rgba(0,0,0,0.06); transition:transform .2s, box-shadow .2s; }
+.plant-plot:hover { transform: translateY(-8px) rotateX(4deg); box-shadow:0 18px 36px rgba(0,0,0,0.12); }
+.seedling { font-size:28px; }
+.tag { font-weight:700; color:#486; text-transform:capitalize; }
 
-@keyframes pop {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
+/* Garden note */
+.garden-note { margin-top:14px; font-size:14px; color:#6a6a6a; }
 
-.fermer {
-  float: right;
-  font-size: 28px;
-  cursor: pointer;
+/* Modal system */
+#modals-container { position:fixed; inset:0; pointer-events:none; }
+.modal { position:absolute; top:12%; left:50%; transform:translateX(-50%) translateY(-20px) scale(.98); min-width:320px; max-width:760px; background:linear-gradient(180deg,#fff 0%, #fffaf6 100%); border-radius:14px; box-shadow:0 20px 60px rgba(30,20,10,0.18); padding:18px; pointer-events:auto; opacity:0; transition:opacity .22s, transform .22s; z-index:120; }
+.modal[aria-hidden="false"] { opacity:1; transform:translateX(-50%) translateY(0) scale(1); }
+.modal-content { position:relative; }
+.close { position:absolute; right:8px; top:8px; border:none; background:transparent; font-size:22px; cursor:pointer; color:#a44; }
+
+/* footer */
+footer { text-align:center; padding:18px 12px; font-size:13px; color:#7a6a63; }
+
+/* responsive */
+@media (max-width:900px) {
+  .desk { width:92%; height:70%; padding:12px; gap:10px; }
+  .ordi { width:160px; height:120px; margin-left:12px; }
+  .plant-plot { width:46%; }
 }

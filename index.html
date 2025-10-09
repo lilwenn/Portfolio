@@ -1,98 +1,51 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio – Lilwenn</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L'Atelier de Lilwenn</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>👋 Salut, je suis Lilwenn</h1>
-    <p>Développeuse web & créatrice d’expériences numériques</p>
-  </header>
+  <div id="atelier">
+    <img src="images/bureau.jpeg" alt="Bureau" class="fond">
 
-  <nav>
-    <a href="#about">À propos</a>
-    <a href="#projects">Projets</a>
-    <a href="#contact">Contact</a>
-  </nav>
+    <!-- Objets interactifs -->
+    <img src="images/ordi.jpeg" alt="Ordinateur" class="objet" id="ordi" title="Mes projets web">
+    <img src="images/carnet.jpeg" alt="Carnet" class="objet" id="carnet" title="Mon parcours">
+    <img src="images/tasse.jpeg" alt="Tasse" class="objet" id="tasse" title="Pause café">
 
-  <section id="about">
-    <h2>À propos</h2>
-    <p>Passionnée par le développement web, j’aime créer des interfaces simples et intuitives. 
-    Je travaille principalement avec HTML, CSS et JavaScript.</p>
-  </section>
-
-  <section id="projects">
-    <h2>Mes projets</h2>
-    <div class="project">
-      <h3>🌐 Mon premier site web</h3>
-      <p>Un petit site statique en HTML/CSS pour présenter mes compétences.</p>
+    <!-- Fenêtres modales -->
+    <div class="modal" id="modal-ordi">
+      <div class="contenu">
+        <span class="fermer">&times;</span>
+        <h2>💻 Mes projets</h2>
+        <p>Voici quelques-uns de mes projets web réalisés avec HTML, CSS et JavaScript.</p>
+        <ul>
+          <li><a href="#">Portfolio</a></li>
+          <li><a href="#">Application JS</a></li>
+          <li><a href="#">Site artistique</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="project">
-      <h3>💻 Application JavaScript</h3>
-      <p>Une app interactive que j’ai créée pour apprendre le DOM et les événements.</p>
+
+    <div class="modal" id="modal-carnet">
+      <div class="contenu">
+        <span class="fermer">&times;</span>
+        <h2>📔 Mon parcours</h2>
+        <p>Je suis passionnée par la création numérique et le design web. Voici mon parcours...</p>
+      </div>
     </div>
-  </section>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>📧 lilwenn@example.com</p>
-    <p><a href="https://github.com/lilwenn" target="_blank">Mon GitHub</a></p>
-  </section>
-
-  <footer>
-    <p>© 2025 Lilwenn — Portfolio personnel</p>
-  </footer>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio – Lilwenn</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header>
-    <h1>👋 Salut, je suis Lilwenn</h1>
-    <p>Développeuse web & créatrice d’expériences numériques</p>
-  </header>
-
-  <nav>
-    <a href="#about">À propos</a>
-    <a href="#projects">Projets</a>
-    <a href="#contact">Contact</a>
-  </nav>
-
-  <section id="about">
-    <h2>À propos</h2>
-    <p>Passionnée par le développement web, j’aime créer des interfaces simples et intuitives. 
-    Je travaille principalement avec HTML, CSS et JavaScript.</p>
-  </section>
-
-  <section id="projects">
-    <h2>Mes projets</h2>
-    <div class="project">
-      <h3>🌐 Mon premier site web</h3>
-      <p>Un petit site statique en HTML/CSS pour présenter mes compétences.</p>
+    <div class="modal" id="modal-tasse">
+      <div class="contenu">
+        <span class="fermer">&times;</span>
+        <h2>☕ Petite pause ?</h2>
+        <p>Parfois, il faut savoir se détendre un peu avant de reprendre le code !</p>
+      </div>
     </div>
-    <div class="project">
-      <h3>💻 Application JavaScript</h3>
-      <p>Une app interactive que j’ai créée pour apprendre le DOM et les événements.</p>
-    </div>
-  </section>
+  </div>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>📧 lilwenn@example.com</p>
-    <p><a href="https://github.com/lilwenn" target="_blank">Mon GitHub</a></p>
-  </section>
-
-  <footer>
-    <p>© 2025 Lilwenn — Portfolio personnel</p>
-  </footer>
+  <script src="script.js"></script>
 </body>
 </html>

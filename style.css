@@ -1,107 +1,58 @@
 body {
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f9fafc;
-    color: #333;
-  }
-  
-  header {
-    text-align: center;
-    padding: 60px 20px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-  }
-  
-  nav {
-    display: flex;
-    justify-content: center;
-    background: #fff;
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-  
-  nav a {
-    margin: 0 15px;
-    color: #333;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  nav a:hover {
-    color: #667eea;
-  }
-  
-  section {
-    padding: 50px 20px;
-    max-width: 800px;
-    margin: auto;
-  }
-  
-  .project {
-    background: white;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-  
-  footer {
-    text-align: center;
-    padding: 20px;
-    background: #eee;
-  }
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f9fafc;
-    color: #333;
-  }
-  
-  header {
-    text-align: center;
-    padding: 60px 20px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-  }
-  
-  nav {
-    display: flex;
-    justify-content: center;
-    background: #fff;
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-  
-  nav a {
-    margin: 0 15px;
-    color: #333;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  nav a:hover {
-    color: #667eea;
-  }
-  
-  section {
-    padding: 50px 20px;
-    max-width: 800px;
-    margin: auto;
-  }
-  
-  .project {
-    background: white;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-  
-  footer {
-    text-align: center;
-    padding: 20px;
-    background: #eee;
-  }
-    
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  background: #f2eee9;
+}
+
+#atelier {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: url('images/mur.png') center/cover no-repeat;
+}
+
+.objet {
+  position: absolute;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.objet:hover {
+  transform: scale(1.1);
+}
+
+/* Exemples de positionnement */
+#ordi { top: 60%; left: 45%; width: 150px; }
+#carnet { top: 70%; left: 25%; width: 100px; }
+#tasse { top: 72%; left: 65%; width: 80px; }
+
+/* Fenêtres modales */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+}
+
+.contenu {
+  background: white;
+  margin: 10% auto;
+  padding: 20px;
+  width: 60%;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.fermer {
+  float: right;
+  font-size: 28px;
+  cursor: pointer;
+}

@@ -1,0 +1,92 @@
+/* Atelier - Espace technique */
+.atelier {
+    display: block;
+    min-height: calc(100vh - 80px);
+    position: relative;
+    padding: 2rem;
+    background: linear-gradient(to bottom, #f5e6d3 0%, #e8d4b8 50%, #d4c4a8 100%);
+}
+
+.atelier-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    height: 600px;
+}
+
+/* Fenêtre vers le potager */
+.window {
+    position: absolute;
+    top: 20px;
+    right: 100px;
+    width: 200px;
+    height: 250px;
+    background: linear-gradient(135deg, #a8d5ba 0%, #7cb89d 100%);
+    border: 8px solid #6b5344;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.window:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+
+/* Objets interactifs de l'atelier */
+.object {
+    position: absolute;
+    cursor: pointer;
+    transition: transform 0.3s;
+    text-align: center;
+}
+
+.object:hover {
+    transform: translateY(-10px);
+}
+
+.object-icon {
+    font-size: 4rem;
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+}
+
+.object-label {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #6b5344;
+    font-weight: bold;
+}
+
+/* Positionnement des objets */
+.computer { top: 250px; left: 150px; }
+.notebook { top: 350px; left: 400px; }
+.headphones { top: 200px; right: 350px; }
+.aquarium { bottom: 100px; right: 200px; }
+.bottle { top: 400px; left: 700px; }
+.robot { bottom: 150px; left: 300px; }
+.plant { bottom: 200px; right: 450px; }
+.usb { top: 300px; left: 550px; }
+
+/* Responsive pour l'atelier */
+@media (max-width: 768px) {
+    .atelier-content {
+        height: auto;
+        min-height: 500px;
+    }
+
+    .object {
+        position: relative;
+        display: inline-block;
+        margin: 1rem;
+    }
+
+    .window {
+        position: relative;
+        margin: 2rem auto;
+    }
+}

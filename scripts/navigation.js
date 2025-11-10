@@ -20,15 +20,17 @@ function showPotager() {
 }
 
 /**
- * Télécharge le CV (à implémenter avec le vrai fichier)
+ * Télécharge le CV
  */
 function downloadCV() {
     // Version simple avec alerte
     alert('Téléchargement du CV (fonctionnalité à implémenter avec votre fichier PDF)');
     
-    // Pour implémenter le vrai téléchargement, décommentez :
-    // const link = document.createElement('a');
-    // link.href = 'assets/files/CV_Lilwenn.pdf';
-    // link.download = 'CV_Lilwenn.pdf';
-    // link.click();
+    // Pour implémenter le vrai téléchargement, décommentez et ajoutez votre fichier PDF :
+    /*
+    const link = document.createElement('a');
+    link.href = 'assets/files/CV_Lilwenn.pdf';
+    link.download = 'CV_Lilwenn.pdf';
+    link.click();
+    */
 }

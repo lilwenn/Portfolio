@@ -1,4 +1,7 @@
-/* Système de modales enrichies */
+/**
+ * Styles des modales
+ */
+
 .modal {
     display: none;
     position: fixed;
@@ -10,20 +13,30 @@
     z-index: 1000;
     align-items: center;
     justify-content: center;
-    animation: fadeIn 0.3s;
     padding: 2rem;
+    animation: fadeIn 0.3s;
 }
 
 .modal-content {
     background: white;
     padding: 3rem;
     border-radius: 20px;
-    max-width: 900px; /* Agrandi pour plus de contenu */
+    max-width: 900px;
     max-height: 90vh;
     overflow-y: auto;
     position: relative;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     animation: slideUp 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 .modal-close {
@@ -37,6 +50,7 @@
     border: none;
     line-height: 1;
     z-index: 10;
+    transition: color 0.3s;
 }
 
 .modal-close:hover {
@@ -47,164 +61,12 @@
     font-size: 2rem;
     color: #6b5344;
     margin-bottom: 1.5rem;
-    padding-right: 2rem; /* Pour éviter le bouton fermer */
+    padding-right: 2rem;
 }
 
 .modal-text {
     line-height: 1.8;
     color: #333;
-    margin-bottom: 1.5rem;
-}
-
-/* Nouveau : Galerie d'images */
-.modal-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-    margin: 1.5rem 0;
-}
-
-.modal-gallery img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: transform 0.3s;
-}
-
-.modal-gallery img:hover {
-    transform: scale(1.05);
-}
-
-/* Nouveau : Image principale */
-.modal-image {
-    width: 100%;
-    max-height: 400px;
-    object-fit: cover;
-    border-radius: 15px;
-    margin: 1.5rem 0;
-}
-
-/* Nouveau : Vidéo */
-.modal-video {
-    width: 100%;
-    max-height: 450px;
-    border-radius: 15px;
-    margin: 1.5rem 0;
-}
-
-/* Nouveau : Section avec icône */
-.modal-section {
-    margin: 2rem 0;
-    padding: 1.5rem;
-    background: #f8f8f8;
-    border-radius: 10px;
-    border-left: 4px solid #6b5344;
-}
-
-.modal-section-title {
-    font-size: 1.3rem;
-    color: #6b5344;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.modal-section-content {
-    color: #555;
-    line-height: 1.6;
-}
-
-/* Nouveau : Liste de compétences/tags */
-.modal-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 1.5rem 0;
-}
-
-.modal-tag {
-    padding: 0.5rem 1rem;
-    background: #e8d4b8;
-    color: #6b5344;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: bold;
-}
-
-/* Nouveau : Liens/Boutons dans la modale */
-.modal-links {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-    flex-wrap: wrap;
-}
-
-.modal-link {
-    padding: 0.8rem 1.5rem;
-    background: #6b5344;
-    color: white;
-    text-decoration: none;
-    border-radius: 25px;
-    transition: background 0.3s;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.modal-link:hover {
-    background: #8b6f47;
-}
-
-/* Nouveau : Timeline/Étapes */
-.modal-timeline {
-    margin: 2rem 0;
-}
-
-.timeline-item {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    padding-left: 2rem;
-    position: relative;
-}
-
-.timeline-item::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.5rem;
-    width: 12px;
-    height: 12px;
-    background: #6b5344;
-    border-radius: 50%;
-}
-
-.timeline-item::after {
-    content: '';
-    position: absolute;
-    left: 5px;
-    top: 1.5rem;
-    width: 2px;
-    height: calc(100% + 1rem);
-    background: #d4c4a8;
-}
-
-.timeline-item:last-child::after {
-    display: none;
-}
-
-.timeline-date {
-    font-weight: bold;
-    color: #6b5344;
-    min-width: 100px;
-}
-
-.timeline-content {
-    flex: 1;
-    color: #555;
 }
 
 /* Responsive */
@@ -220,13 +82,5 @@
 
     .modal-title {
         font-size: 1.5rem;
-    }
-
-    .modal-gallery {
-        grid-template-columns: 1fr;
-    }
-
-    .modal-links {
-        flex-direction: column;
     }
 }

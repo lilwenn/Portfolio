@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outil de positionnement - Atelier de Lilwenn</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .header {
+            background: #2a2a2a;
+            padding: 1rem;
+            border-bottom: 2px solid #4a4a4a;
+        }
+
+        .header h1 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .main-container {
+            display: flex;
+            height: calc(100vh - 100px);
+        }
+
+        .canvas-area {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .canvas-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .draggable-box {
+            position: absolute;
+            border: 3px solid #ff6b6b;
+            background: rgba(255, 107, 107, 0.2);
+            cursor: move;
+            min-width: 30px;
+            min-height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .draggable-box:hover {
+            border-color: #ffd93d;
+            background: rgba(255, 217, 61, 0.3);
+        }
+
+        .draggable-box.selected {
+            border-color: #6bcf7f;
+            background: rgba(107, 207, 127, 0.3);
+            z-index: 1000;
+        }
+
+        .resize-handle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border: 2px solid #ff6b6b;
+            border-radius: 50%;
+        }
+
+        .resize-handle.se {
+            bottom: -6px;
+            right: -6px;
+            cursor: nwse-resize;
+        }
+
+        .sidebar {
+            width: 350px;
+            background: #2a2a2a;
+            padding: 1rem;
+            overflow-y: auto;
+            border-left: 2px solid #4a4a4a;
+        }
+
+        .sidebar h2 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #ffd93d;
+        }
+
+        .object-item {
+            background: #3a3a3a;
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .object-item:hover {
+            background: #4a4a4a;
+        }
+
+        .object-item.selected {
+            background: #6bcf7f;
+            color: black;
+        }
+
+        .code-output {
+            background: #1a1a1a;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .code-output pre {
+            margin: 0;
+            white-space: pre-wrap;
+            color: #6bcf7f;
+        }
+
+        .btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #ff5252;
+        }
+
+        .btn-secondary {
+            background: #4a90e2;
+        }
+
+        .btn-secondary:hover {
+            background: #357abd;
+        }
+
+        .upload-zone {
+            border: 2px dashed #4a4a4a;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-zone:hover {
+            border-color: #6bcf7f;
+            background: rgba(107, 207, 127, 0.1);
+        }
+
+        .upload-zone.has-image {
+            border-color: #6bcf7f;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .info-box {
+            background: #3a3a3a;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .info-box strong {
+            color: #ffd93d;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 Outil de positionnement des objets interactifs</h1>
+        <p>Glissez-déposez les objets sur votre image, redimensionnez-les, puis copiez le code CSS généré</p>
+    </div>
+
+    <div class="main-container">
+        <div class="canvas-area" id="canvas">
+            <p style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #666; font-size: 1.5rem;">
+                👈 Importez votre image de fond
+            </p>
+        </div>
+
+        <div class="sidebar">
+            <div class="upload-zone" id="uploadZone" onclick="document.getElementById('imageInput').click()">
+                <p>📁 Cliquez pour importer votre image</p>
+                <p style="font-size: 0.8rem; color: #888; margin-top: 0.5rem;">Format JPG ou PNG</p>
+            </div>
+            <input type="file" id="imageInput" accept="image/*">
+
+            <h2>🎨 Objets disponibles</h2>
+            <div id="objectsList"></div>
+
+            <button class="btn" onclick="generateCSS()">📋 Générer le code CSS</button>
+            <button class="btn btn-secondary" onclick="copyCSS()">📄 Copier le code</button>
+
+            <div class="code-output">
+                <pre id="cssOutput">/* Le code CSS apparaîtra ici */</pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const objects = [
+            { name: 'window', label: '🪟 Fenêtre', defaultSize: { w: 30, h: 22 } },
+            { name: 'computer', label: '💻 Ordinateur', defaultSize: { w: 24, h: 22 } },
+            { name: 'car', label: '🚗 Voiture', defaultSize: { w: 6, h: 6 } },
+            { name: 'notebook', label: '📔 Carnet', defaultSize: { w: 7, h: 8 } },
+            { name: 'aquarium', label: '🐠 Aquarium', defaultSize: { w: 6, h: 12 } },
+            { name: 'bottle', label: '🍼 Bouteille', defaultSize: { w: 3, h: 6 } },
+            { name: 'robot', label: '🤖 Robot', defaultSize: { w: 5, h: 8 } },
+            { name: 'plant-left', label: '🌿 Plante Gauche', defaultSize: { w: 7, h: 14 } },
+            { name: 'plant-right', label: '🌿 Plante Droite', defaultSize: { w: 7, h: 14 } },
+            { name: 'camera', label: '📷 Caméra', defaultSize: { w: 5, h: 7 } },
+            { name: 'usb', label: '💾 USB', defaultSize: { w: 3.5, h: 5 } },
+            { name: 'books', label: '📚 Livres', defaultSize: { w: 5, h: 7 } },
+            { name: 'cat', label: '🐱 Chat', defaultSize: { w: 7, h: 8 } },
+            { name: 'plane', label: '✈️ Avion', defaultSize: { w: 4, h: 4 } },
+            { name: 'flask', label: '🧪 Fiole', defaultSize: { w: 3, h: 6 } },
+            { name: 'map', label: '🗺️ Carte', defaultSize: { w: 8, h: 10 } },
+            { name: 'coffee', label: '☕ Café', defaultSize: { w: 3, h: 5 } }
+        ];
+
+        let selectedBox = null;
+        let draggedBox = null;
+        let dragOffset = { x: 0, y: 0 };
+        let resizing = false;
+
+        // Initialiser la liste des objets
+        const objectsList = document.getElementById('objectsList');
+        objects.forEach(obj => {
+            const div = document.createElement('div');
+            div.className = 'object-item';
+            div.textContent = obj.label;
+            div.onclick = () => addObject(obj);
+            objectsList.appendChild(div);
+        });
+
+        // Gestion de l'upload d'image
+        document.getElementById('imageInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const canvas = document.getElementById('canvas');
+                    canvas.innerHTML = '';
+                    const img = document.createElement('img');
+                    img.src = event.target.result;
+                    canvas.appendChild(img);
+                    document.getElementById('uploadZone').classList.add('has-image');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function addObject(obj) {
+            const canvas = document.getElementById('canvas');
+            const box = document.createElement('div');
+            box.className = 'draggable-box';
+            box.dataset.name = obj.name;
+            box.textContent = obj.label;
+            box.style.left = '50%';
+            box.style.top = '50%';
+            box.style.width = obj.defaultSize.w + '%';
+            box.style.height = obj.defaultSize.h + '%';
+            
+            const handle = document.createElement('div');
+            handle.className = 'resize-handle se';
+            box.appendChild(handle);
+            
+            canvas.appendChild(box);
+            
+            box.addEventListener('mousedown', startDrag);
+            handle.addEventListener('mousedown', startResize);
+        }
+
+        function startDrag(e) {
+            if (e.target.classList.contains('resize-handle')) return;
+            draggedBox = e.currentTarget;
+            selectBox(draggedBox);
+            const rect = draggedBox.getBoundingClientRect();
+            dragOffset.x = e.clientX - rect.left;
+            dragOffset.y = e.clientY - rect.top;
+            e.preventDefault();
+        }
+
+        function startResize(e) {
+            resizing = true;
+            draggedBox = e.currentTarget.parentElement;
+            selectBox(draggedBox);
+            e.stopPropagation();
+            e.preventDefault();
+        }
+
+        function selectBox(box) {
+            if (selectedBox) {
+                selectedBox.classList.remove('selected');
+            }
+            selectedBox = box;
+            box.classList.add('selected');
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            if (!draggedBox) return;
+            
+            const canvas = document.getElementById('canvas');
+            const canvasRect = canvas.getBoundingClientRect();
+            
+            if (resizing) {
+                const newWidth = ((e.clientX - canvasRect.left) / canvasRect.width * 100);
+                const newHeight = ((e.clientY - canvasRect.top) / canvasRect.height * 100);
+                const currentLeft = parseFloat(draggedBox.style.left);
+                const currentTop = parseFloat(draggedBox.style.top);
+                
+                draggedBox.style.width = Math.max(2, newWidth - currentLeft) + '%';
+                draggedBox.style.height = Math.max(2, newHeight - currentTop) + '%';
+            } else {
+                const x = e.clientX - canvasRect.left - dragOffset.x;
+                const y = e.clientY - canvasRect.top - dragOffset.y;
+                
+                draggedBox.style.left = (x / canvasRect.width * 100) + '%';
+                draggedBox.style.top = (y / canvasRect.height * 100) + '%';
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            draggedBox = null;
+            resizing = false;
+            generateCSS();
+        });
+
+        function generateCSS() {
+            const boxes = document.querySelectorAll('.draggable-box');
+            let css = '/* Positions générées automatiquement */\n\n';
+            
+            boxes.forEach(box => {
+                const name = box.dataset.name;
+                const left = parseFloat(box.style.left).toFixed(1);
+                const top = parseFloat(box.style.top).toFixed(1);
+                const width = parseFloat(box.style.width).toFixed(1);
+                const height = parseFloat(box.style.height).toFixed(1);
+                const right = (100 - parseFloat(left) - parseFloat(width)).toFixed(1);
+                const bottom = (100 - parseFloat(top) - parseFloat(height)).toFixed(1);
+                
+                css += `.${name} { \n`;
+                
+                // Utiliser top/bottom selon ce qui est le plus proche
+                if (parseFloat(top) < 50) {
+                    css += `  top: ${top}%; \n`;
+                } else {
+                    css += `  bottom: ${bottom}%; \n`;
+                }
+                
+                // Utiliser left/right selon ce qui est le plus proche
+                if (parseFloat(left) < 50) {
+                    css += `  left: ${left}%; \n`;
+                } else {
+                    css += `  right: ${right}%; \n`;
+                }
+                
+                css += `  width: ${width}%; \n`;
+                css += `  height: ${height}%; \n`;
+                css += `}\n\n`;
+            });
+            
+            document.getElementById('cssOutput').textContent = css;
+        }
+
+        function copyCSS() {
+            const cssText = document.getElementById('cssOutput').textContent;
+            navigator.clipboard.writeText(cssText).then(() => {
+                alert('✅ Code CSS copié dans le presse-papier !');
+            });
+        }
+
+        // Supprimer une box avec la touche Delete
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Delete' && selectedBox) {
+                selectedBox.remove();
+                selectedBox = null;
+                generateCSS();
+            }
+        });
+    </script>
+</body>
+</html>

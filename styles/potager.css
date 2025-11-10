@@ -1,10 +1,27 @@
-/* Potager - Espace personnel */
+/**
+ * Styles de l'espace Potager avec images
+ */
+
+/* Potager - Espace personnel avec fond personnalisé */
 .potager {
     display: none;
-    min-height: calc(100vh - 80px);
+    min-height: 100vh;
     position: relative;
-    padding: 2rem;
-    background: linear-gradient(to bottom, #a8d5ba 0%, #7cb89d 50%, #5a9d7a 100%);
+    padding: 6rem 2rem 2rem;
+    background: url('../assets/images/potager/potager-background.png') center/cover no-repeat;
+    background-attachment: fixed;
+}
+
+/* Overlay optionnel */
+.potager::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(168, 213, 186, 0.2);
+    pointer-events: none;
 }
 
 .potager-content {
@@ -12,39 +29,46 @@
     margin: 0 auto;
     position: relative;
     height: 600px;
+    z-index: 1;
 }
 
 /* Bouton retour */
 .back-button {
-    position: absolute;
+    position: fixed;
     top: 20px;
     left: 20px;
+    z-index: 100;
     padding: 1rem 2rem;
     background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
     border: 2px solid #6b5344;
     border-radius: 50px;
     cursor: pointer;
     font-size: 1rem;
     color: #6b5344;
     transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .back-button:hover {
     background: #6b5344;
     color: white;
+    transform: scale(1.05);
 }
 
-/* Éléments du jardin */
+/* Éléments du jardin avec images réelles */
 .garden-item {
     position: absolute;
     cursor: pointer;
-    transition: transform 0.3s;
+    transition: all 0.3s;
     text-align: center;
     animation: grow 2s ease-in-out infinite alternate;
+    background: none;
+    border: none;
 }
 
 .garden-item:hover {
-    transform: scale(1.1);
+    transform: scale(1.15) translateY(-10px);
 }
 
 @keyframes grow {
@@ -52,26 +76,41 @@
     to { transform: translateY(-5px); }
 }
 
-.garden-icon {
-    font-size: 3rem;
-    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+.garden-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transition: all 0.3s;
+    background: white;
+}
+
+.garden-item:hover .garden-image {
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    transform: scale(1.15);
 }
 
 .garden-label {
     margin-top: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: #2d5a3d;
     font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.8);
+    padding: 0.4rem 0.9rem;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
 }
 
 /* Positionnement des éléments du jardin */
-.seedling1 { top: 200px; left: 200px; }
-.seedling2 { top: 300px; left: 400px; }
-.tomato { top: 250px; right: 300px; }
-.flower { bottom: 200px; left: 500px; }
+.seedling1 { top: 180px; left: 180px; }
+.seedling2 { top: 280px; left: 380px; }
+.tomato { top: 220px; right: 280px; }
+.flower { bottom: 180px; left: 480px; }
 .bee { 
-    top: 150px; 
-    right: 200px; 
+    top: 130px; 
+    right: 180px; 
     animation: fly 4s ease-in-out infinite; 
 }
 
@@ -82,6 +121,11 @@
 
 /* Responsive pour le potager */
 @media (max-width: 768px) {
+    .potager {
+        background-size: cover;
+        background-attachment: scroll;
+    }
+
     .potager-content {
         height: auto;
         min-height: 500px;
@@ -93,8 +137,14 @@
         margin: 1rem;
     }
 
+    .garden-image {
+        width: 80px;
+        height: 80px;
+    }
+
     .back-button {
-        position: relative;
-        margin-bottom: 2rem;
+        top: 10px;
+        left: 10px;
+        padding: 0.7rem 1.2rem;
     }
 }

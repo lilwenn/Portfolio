@@ -33,6 +33,10 @@ const content = {
         title: "🌿 Connexion Nature",
         text: "Les plantes m'accompagnent dans mon espace de travail et m'inspirent. Elles me rappellent l'importance de la croissance progressive et de l'attention aux détails."
     },
+    cup: {
+        title: "☕ Pause Café",
+        text: "Un moment de pause essentiel pour recharger les batteries et laisser les idées mûrir. Le café accompagne mes meilleures réflexions créatives."
+    },
     
     // Contenu du potager
     seedling1: {

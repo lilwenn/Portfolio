@@ -4,20 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>L'atelier de Lilwenn</title>
-    <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="modal.css">
-    <link rel="stylesheet" href="atelier.css">
-    <link rel="stylesheet" href="potager.css">
+    
+    <!-- Styles CSS -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/atelier.css">
+    <link rel="stylesheet" href="styles/potager.css">
+    <link rel="stylesheet" href="styles/modal.css">
 </head>
 <body>
-    <!-- Menu -->
-    <nav class="menu">
-        <h1>🧰 L'atelier de Lilwenn</h1>
-        <div class="menu-links">
-            <a href="#" onclick="showAtelier()">Atelier</a>
-            <a href="#" onclick="downloadCV()">Télécharger CV</a>
-        </div>
-    </nav>
+    <!-- Titre flottant -->
+    <h1 class="floating-title">🧰 L'atelier de Lilwenn</h1>
+
+    <!-- Bouton CV flottant -->
+    <button class="floating-cv" onclick="downloadCV()">📄 Télécharger CV</button>
 
     <div class="container">
         <!-- Atelier -->
@@ -25,47 +24,52 @@
             <div class="atelier-content">
                 <!-- Fenêtre vers le potager -->
                 <div class="window" onclick="showPotager()">
-                    🌿
+                    <span class="window-label">Potager</span>
                 </div>
 
-                <!-- Objets interactifs -->
+                <!-- Objets interactifs avec images -->
                 <div class="object computer" onclick="openModal('computer')">
-                    <div class="object-icon">💻</div>
+                    <img src="assets/images/ordinateur.jpeg" alt="Ordinateur" class="object-image">
                     <div class="object-label">Projets</div>
                 </div>
 
                 <div class="object notebook" onclick="openModal('notebook')">
-                    <div class="object-icon">📔</div>
+                    <img src="assets/images/cahier.jpeg" alt="Cahier" class="object-image">
                     <div class="object-label">Parcours</div>
                 </div>
 
                 <div class="object headphones" onclick="openModal('headphones')">
-                    <div class="object-icon">🎧</div>
+                    <img src="assets/images/casque.jpeg" alt="Casque audio" class="object-image">
                     <div class="object-label">Inspirations</div>
                 </div>
 
                 <div class="object aquarium" onclick="openModal('aquarium')">
-                    <div class="object-icon">🐠</div>
+                    <img src="assets/images/aquarium.jpeg" alt="Aquarium" class="object-image">
                     <div class="object-label">Aquarium</div>
                 </div>
 
                 <div class="object bottle" onclick="openModal('bottle')">
-                    <div class="object-icon">🍼</div>
+                    <img src="assets/images/bouteille.jpeg" alt="Bouteille" class="object-image">
                     <div class="object-label">Message</div>
                 </div>
 
                 <div class="object robot" onclick="openModal('robot')">
-                    <div class="object-icon">🤖</div>
+                    <img src="assets/images/robot.jpeg" alt="Robot" class="object-image">
                     <div class="object-label">Tech</div>
                 </div>
 
                 <div class="object plant" onclick="openModal('plant')">
-                    <div class="object-icon">🌿</div>
+                    <img src="assets/images/plante.jpeg" alt="Plante" class="object-image">
                     <div class="object-label">Nature</div>
                 </div>
 
+                <div class="object cup" onclick="openModal('cup')">
+                    <img src="assets/images/tasse.jpeg" alt="Tasse" class="object-image">
+                    <div class="object-label">Pause café</div>
+                </div>
+
                 <div class="object usb" onclick="downloadCV()">
-                    <div class="object-icon">💾</div>
+                    <img src="assets/images/usb.jpeg" alt="Clé USB" class="object-image">
                     <div class="object-label">CV</div>
                 </div>
             </div>
@@ -76,27 +80,27 @@
             <button class="back-button" onclick="showAtelier()">← Retour à l'atelier</button>
             <div class="potager-content">
                 <div class="garden-item seedling1" onclick="openModal('seedling1')">
-                    <div class="garden-icon">🌱</div>
+                    <img src="assets/images/potager/graine1.jpeg" alt="Graine" class="garden-image">
                     <div class="garden-label">Créativité</div>
                 </div>
 
                 <div class="garden-item seedling2" onclick="openModal('seedling2')">
-                    <div class="garden-icon">🌱</div>
+                    <img src="assets/images/potager/graine2.jpeg" alt="Graine" class="garden-image">
                     <div class="garden-label">Curiosité</div>
                 </div>
 
                 <div class="garden-item tomato" onclick="openModal('tomato')">
-                    <div class="garden-icon">🍅</div>
+                    <img src="assets/images/potager/tomate.jpeg" alt="Tomate" class="garden-image">
                     <div class="garden-label">Passion</div>
                 </div>
 
                 <div class="garden-item flower" onclick="openModal('flower')">
-                    <div class="garden-icon">🌻</div>
+                    <img src="assets/images/potager/fleur.jpeg" alt="Fleur" class="garden-image">
                     <div class="garden-label">Bienvenue</div>
                 </div>
 
                 <div class="garden-item bee">
-                    <div class="garden-icon">🐝</div>
+                    <img src="assets/images/potager/abeille.jpeg" alt="Abeille" class="garden-image">
                 </div>
             </div>
         </section>
@@ -111,9 +115,9 @@
         </div>
     </div>
 
+    <!-- Scripts JavaScript -->
     <script src="scripts/content.js"></script>
-    <script src="scripts/content-advanced.js"></script>
     <script src="scripts/navigation.js"></script>
-    <script src="scripts/modal-advanced.js"></script>
+    <script src="scripts/modal.js"></script>
 </body>
 </html>

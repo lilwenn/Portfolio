@@ -1,10 +1,27 @@
-/* Atelier - Espace technique */
+/**
+ * Styles de l'espace Atelier avec images
+ */
+
+/* Atelier - Espace technique avec fond personnalisé */
 .atelier {
     display: block;
-    min-height: calc(100vh - 80px);
+    min-height: 100vh;
     position: relative;
-    padding: 2rem;
-    background: linear-gradient(to bottom, #f5e6d3 0%, #e8d4b8 50%, #d4c4a8 100%);
+    padding: 6rem 2rem 2rem;
+    background: url('../assets/images/atelier-background.png') center/cover no-repeat;
+    background-attachment: fixed;
+}
+
+/* Overlay optionnel pour améliorer la lisibilité */
+.atelier::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(245, 230, 211, 0.3);
+    pointer-events: none;
 }
 
 .atelier-content {
@@ -12,6 +29,21 @@
     margin: 0 auto;
     position: relative;
     height: 600px;
+    z-index: 1;
+}
+
+/* Bureau en arrière-plan */
+.atelier-content::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 400px;
+    background: url('../assets/images/bureau.jpeg') center/contain no-repeat;
+    z-index: -1;
+    opacity: 0.8;
 }
 
 /* Fenêtre vers le potager */
@@ -29,7 +61,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3rem;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
@@ -38,51 +69,91 @@
     box-shadow: 0 15px 40px rgba(0,0,0,0.4);
 }
 
-/* Objets interactifs de l'atelier */
+.window-label {
+    font-size: 1.2rem;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Objets interactifs avec images réelles */
 .object {
     position: absolute;
     cursor: pointer;
-    transition: transform 0.3s;
+    transition: all 0.3s;
     text-align: center;
+    background: none;
+    border: none;
+    padding: 0;
 }
 
 .object:hover {
-    transform: translateY(-10px);
+    transform: translateY(-15px) scale(1.05);
 }
 
-.object-icon {
-    font-size: 4rem;
-    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+.object-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transition: all 0.3s;
+    background: white;
+}
+
+.object:hover .object-image {
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    transform: scale(1.1);
 }
 
 .object-label {
     margin-top: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: #6b5344;
     font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.8);
+    padding: 0.4rem 0.9rem;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
 }
 
-/* Positionnement des objets */
-.computer { top: 250px; left: 150px; }
-.notebook { top: 350px; left: 400px; }
-.headphones { top: 200px; right: 350px; }
-.aquarium { bottom: 100px; right: 200px; }
-.bottle { top: 400px; left: 700px; }
-.robot { bottom: 150px; left: 300px; }
-.plant { bottom: 200px; right: 450px; }
-.usb { top: 300px; left: 550px; }
+/* Positionnement des objets sur le bureau */
+.computer { top: 180px; left: 120px; }
+.notebook { top: 300px; left: 350px; }
+.headphones { top: 150px; right: 320px; }
+.aquarium { bottom: 80px; right: 180px; }
+.bottle { top: 350px; left: 650px; }
+.robot { bottom: 120px; left: 280px; }
+.plant { bottom: 160px; right: 420px; }
+.cup { top: 250px; left: 500px; }
+.usb { top: 400px; right: 250px; }
 
 /* Responsive pour l'atelier */
 @media (max-width: 768px) {
+    .atelier {
+        background-size: cover;
+        background-attachment: scroll;
+    }
+
     .atelier-content {
         height: auto;
         min-height: 500px;
+    }
+
+    .atelier-content::before {
+        display: none;
     }
 
     .object {
         position: relative;
         display: inline-block;
         margin: 1rem;
+    }
+
+    .object-image {
+        width: 100px;
+        height: 100px;
     }
 
     .window {
